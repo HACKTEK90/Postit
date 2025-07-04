@@ -1,218 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Article Hub — Fresh Tech & Productivity Reads</title><link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">>
+  <title>Article Hub — Fresh Tech & Productivity Reads</title>
 
-  <meta name="description" content="Article Hub delivers a real-time stream of concise, high-quality articles on technology, productivity, and creative ideas." />
-  <meta name="keywords" content="articles, blog, tech news, productivity tips, firebase, realtime database" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://www.example.com/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.example.com/" />
-  <meta property="og:title" content="Article Hub" />
-  <meta property="og:description" content="Read the latest articles on tech, productivity and more — updated in real-time." />
-  <meta property="og:image" content="https://www.example.com/og-cover.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Article Hub" />
-  <meta name="twitter:description" content="Fresh tech & productivity reads, updated live." />
-  <meta name="twitter:image" content="https://www.example.com/og-cover.jpg" />
+  <!-- Inter Tight font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&display=swap" rel="stylesheet">
 
+  <meta name="description" content="Article Hub delivers a real-time stream of concise, high-quality articles on technology, productivity, and creative ideas.">
+  <meta name="keywords" content="articles, blog, tech news, productivity tips, firebase, realtime database">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.example.com/">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://www.example.com/">
+  <meta property="og:title"       content="Article Hub">
+  <meta property="og:description" content="Read the latest articles on tech, productivity and more — updated in real‑time.">
+  <meta property="og:image"       content="https://www.example.com/og-cover.jpg">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Article Hub">
+  <meta name="twitter:description" content="Fresh tech & productivity reads, updated live.">
+  <meta name="twitter:image"       content="https://www.example.com/og-cover.jpg">
+
+  <!-- Structured data -->
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "url": "https://www.example.com/",
-    "name": "Article Hub",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://www.example.com/?q={search_term_string}",
-      "query-input": "required name=search_term_string"
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "url":"https://www.example.com/",
+    "name":"Article Hub",
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://www.example.com/?q={search_term_string}",
+      "query-input":"required name=search_term_string"
     }
   }
   </script>
 
+  <!-- Style -->
   <style>
-    :root {
-      --clr-bg:        hsl(0 0% 98%);
-      --clr-surface:   hsl(0 0% 100%);
-      --clr-onSurf:    hsl(220 15% 15%);
-      --clr-muted:     hsl(220 10% 45%);
-      --clr-primary:   hsl(215 70% 55%);
-      --radius-nav:    20px;
-      --border-color:  #000;
+  :root{
+    --clr-bg:        hsl(0 0% 98%);
+    --clr-surface:   hsl(0 0% 100%);
+    --clr-onSurf:    hsl(220 15% 15%);
+    --clr-muted:     hsl(220 10% 45%);
+    --clr-primary:   hsl(215 70% 55%);
+    --radius-nav:    20px;
+    --border-color:  #000;
+  }
+  @media(prefers-color-scheme:dark){
+    :root{
+      --clr-bg:      hsl(222 28% 12%);
+      --clr-surface: hsl(222 25% 18%);
+      --clr-onSurf:  hsl(0 0% 98%);
+      --clr-muted:   hsl(220 10% 70%);
+      --clr-primary: hsl(215 70% 65%);
+      --border-color:#fff;
     }
+  }
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --clr-bg:       hsl(222 28% 12%);
-        --clr-surface:  hsl(222 25% 18%);
-        --clr-onSurf:   hsl(0 0% 98%);
-        --clr-muted:    hsl(220 10% 70%);
-        --clr-primary:  hsl(215 70% 65%);
-        --border-color: #fff;
-      }
-    }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font:16px/1.6 "Inter Tight",system-ui,sans-serif;
+    background:var(--clr-bg);color:var(--clr-onSurf);
+  }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  /* Glassmorphic navbar */
+  .navbar{
+    position:sticky;top:1rem;z-index:100;margin:0 2rem;
+    padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;
+    background:rgba(255,255,255,.15);backdrop-filter:blur(14px) saturate(180%);
+    border:1px solid rgba(255,255,255,.3);border-radius:var(--radius-nav);
+  }
+  @media(prefers-color-scheme:dark){
+    .navbar{background:rgba(40,40,48,.25);border-color:rgba(255,255,255,.12)}
+  }
+  .navbar h1,.card h2{font-weight:700;letter-spacing:-.01em}
+  .navbar h1{font-size:1.3rem}
+  .navbar a{
+    text-decoration:none;font-weight:600;padding:.4rem .9rem;border-radius:6px;
+    color:var(--clr-muted);
+  }
+  .navbar a.active{color:var(--clr-surface);background:var(--clr-primary)}
 
-    body {
-      font-family: "Inter Tight", system-ui, sans-serif;
-      background: var(--clr-bg);
-      color: var(--clr-onSurf);
-      line-height: 1.6;
-    }
+  /* Layout: feed + sidebar */
+  .layout{
+    max-width:1200px;margin:2.5rem auto;padding:0 1rem;
+    display:grid;grid-template-columns:3fr 1fr;gap:2rem;
+  }
+  @media(max-width:900px){
+    .layout{grid-template-columns:1fr}
+    .title-map{display:none}
+  }
 
-    /* Navbar Glassmorphic */
-    .navbar {
-      position: sticky;
-      top: 1rem;
-      z-index: 100;
-      margin: 0 2rem;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(14px) saturate(180%);
-      -webkit-backdrop-filter: blur(14px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: var(--radius-nav);
-    }
+  /* Cards */
+  .card{
+    background:var(--clr-surface);border:1px solid var(--border-color);
+    padding:1.5rem 1.75rem;border-radius:0;
+    position:sticky;top:calc(var(--radius-nav) + 4.5rem);
+  }
+  .card h2{font-size:1.3rem;margin-bottom:.5rem}
+  .card p{color:var(--clr-muted);margin-bottom:.75rem}
+  .card time{font-size:.875rem;color:var(--clr-muted)}
 
-    @media (prefers-color-scheme: dark) {
-      .navbar {
-        background: rgba(40, 40, 48, 0.25);
-        border-color: rgba(255, 255, 255, 0.12);
-      }
-    }
-.navbar h1,
-.card h2 {
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
+  /* Title map sidebar */
+  .title-map{
+    position:sticky;top:calc(var(--radius-nav) + 2rem);
+    max-height:80vh;overflow-y:auto;padding-right:.5rem;
+  }
+  .title-map h2{font-size:1.1rem;margin-bottom:.75rem}
+  .title-map a{
+    display:block;margin-bottom:.5rem;text-decoration:none;
+    color:var(--clr-muted);font-size:.95rem;
+  }
+  .title-map a:hover{color:var(--clr-primary)}
 
-    .navbar h1 {
-      font-size: 1.3rem;
-      font-weight: 600;
-    }
-
-    .navbar a {
-      text-decoration: none;
-      font-weight: 600;
-      padding: 0.4rem 0.9rem;
-      color: var(--clr-muted);
-      border-radius: 6px;
-    }
-
-    .navbar a.active {
-      color: var(--clr-surface);
-      background-color: var(--clr-primary);
-    }
-
-    /* Main Content */
-    .container {
-      max-width: 1000px;
-      margin: 2.5rem auto;
-      padding: 0 1rem;
-      display: grid;
-      gap: 1.75rem;
-    }
-
-    .card {
-      background: var(--clr-surface);
-      border: 1px solid var(--border-color);
-      padding: 1.5rem 1.75rem;
-      border-radius: 0;
-      position: sticky;
-      top: calc(var(--radius-nav) + 4.5rem);
-    }
-
-    .card h2 {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-      line-height: 1.3;
-    }
-
-    .card p {
-      color: var(--clr-muted);
-      margin-bottom: 0.75rem;
-    }
-
-    .card time {
-      font-size: 0.875rem;
-      color: var(--clr-muted);
-    }
-
-    .site-footer {
-      text-align: center;
-      padding: 2rem 1rem 3rem;
-      font-size: 0.875rem;
-      color: var(--clr-muted);
-    }
+  footer{text-align:center;padding:2rem 1rem 3rem;font-size:.875rem;color:var(--clr-muted)}
   </style>
 </head>
 <body>
+
+  <!-- Navbar -->
   <header class="navbar">
-    <h1>📰 Article Hub</h1>
-    <nav><a class="active" href="https://hacktek90.github.io/Postit/Admin.html">Publish Your's</a></nav>
+    <h1>📰 Article Hub</h1>
+    <nav><a class="active" href="https://hacktek90.github.io/Postit/Admin.html">Publish Yours</a></nav>
   </header>
 
-  <main class="container" id="articleList">
-    <noscript>Please enable JavaScript to view articles.</noscript>
-  </main>
+  <!-- Main layout -->
+  <div class="layout">
+    <main id="articleList"></main>
 
-  <footer class="site-footer">
-    <p>&copy; 2025 Article Hub.</p>
-  </footer>
+    <aside class="title-map" id="titleMap">
+      <h2>Title Map</h2>
+      <!-- links injected by JS -->
+    </aside>
+  </div>
 
+  <footer>&copy; 2025 Article Hub.</footer>
+
+  <!-- Firebase & dynamic feed -->
   <script type="module">
     import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getDatabase, ref, onValue }
                                from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
+    /* Firebase config */
     const firebaseConfig = {
-      apiKey: "AIzaSyAp9kCBsDLnQEmR7wWHXwt3FB2T1zDtiqU",
-      authDomain: "h-90-8a7c5.firebaseapp.com",
-      databaseURL: "https://h-90-8a7c5-default-rtdb.firebaseio.com",
-      projectId: "h-90-8a7c5",
-      storageBucket: "h-90-8a7c5.appspot.com",
+      apiKey:            "AIzaSyAp9kCBsDLnQEmR7wWHXwt3FB2T1zDtiqU",
+      authDomain:        "h-90-8a7c5.firebaseapp.com",
+      databaseURL:       "https://h-90-8a7c5-default-rtdb.firebaseio.com",
+      projectId:         "h-90-8a7c5",
+      storageBucket:     "h-90-8a7c5.appspot.com",
       messagingSenderId: "367196609301",
-      appId: "1:367196609301:web:156e24c1b4532c26af671c"
+      appId:             "1:367196609301:web:156e24c1b4532c26af671c"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    const app  = initializeApp(firebaseConfig);
+    const db   = getDatabase(app);
     const list = document.getElementById("articleList");
+    const map  = document.getElementById("titleMap");
 
+    /* JSON‑LD script element */
     const ld = document.createElement("script");
     ld.type = "application/ld+json";
     document.head.appendChild(ld);
 
-    onValue(ref(db, "articles"), (snap) => {
+    onValue(ref(db,"articles"), snap=>{
       list.innerHTML = "";
+      map.innerHTML  = "<h2>Title Map</h2>";   // reset sidebar
+
       const data = snap.val() ?? {};
-      const articles = Object.entries(data).sort(
-        (a, b) => (b[1].timestamp ?? 0) - (a[1].timestamp ?? 0)
-      );
+      const articles = Object.entries(data)
+        .sort((a,b)=>(b[1].timestamp??0)-(a[1].timestamp??0));
 
       const itemList = {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "itemListElement": [],
+        "@context":"https://schema.org",
+        "@type":"ItemList",
+        "itemListElement":[]
       };
 
-      articles.forEach(([key, art], i) => {
+      articles.forEach(([key, art], i)=>{
         const id = `art-${key}`;
+
+        /* Card */
         const card = document.createElement("article");
-        card.className = "card";
-        card.id = id;
+        card.className="card";card.id=id;
         card.innerHTML = `
           <h2>${art.title}</h2>
           <p>${art.content}</p>
@@ -220,11 +192,18 @@
         `;
         list.appendChild(card);
 
+        /* Sidebar link */
+        const link = document.createElement("a");
+        link.href  = "#"+id;
+        link.textContent = `${i+1}. ${art.title}`;
+        map.appendChild(link);
+
+        /* LD ItemList */
         itemList.itemListElement.push({
-          "@type": "ListItem",
-          "position": i + 1,
-          "name": art.title,
-          "url": location.origin + "/#" + id,
+          "@type":"ListItem",
+          "position":i+1,
+          "name":art.title,
+          "url":location.origin+"/#"+id
         });
       });
 
