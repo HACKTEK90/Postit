@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <!-- Add Poppins font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
   body {
     font-family: 'Poppins', system-ui, sans-serif;
@@ -239,6 +240,44 @@
   .autocomplete-item:hover {
     background: #e0e7ff;
   }
+  .code-area-label {
+    font-weight: 600;
+    color: #23234a;
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+  .code-area {
+    width: 100%;
+    min-height: 120px;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+    font-size: 1em;
+    background: #18181b;
+    color: #e0e7ff;
+    border: 1px solid #6366f1;
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1.2rem;
+    box-sizing: border-box;
+    resize: vertical;
+    transition: border-color .15s;
+  }
+  .code-area:focus {
+    border-color: #4f46e5;
+    outline: none;
+    background: #23234a;
+  }
+  .code-preview {
+    background: #23234a;
+    color: #e0e7ff;
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1.2rem;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+    font-size: 1em;
+    white-space: pre-wrap;
+    word-break: break-word;
+    border: 1px solid #6366f1;
+  }
   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard — Publish & Manage Articles</title>
@@ -287,6 +326,7 @@
                   <span><b>Author:</b> ${art.author ?? "—"}</span>
                   <span style="margin-left:1em;"><b>Tags:</b> ${(art.tags ?? []).join(", ")}</span>
                 </div>
+                ${art.code ? `<div class="code-preview">${art.code}</div>` : ""}
                 <time>${new Date(art.timestamp).toLocaleString()}</time>
               </div>
             `;
@@ -301,6 +341,7 @@
         const content = form.content.value.trim();
         const author  = form.author.value.trim();
         const tags    = form.tags.value.split(",").map(t=>t.trim()).filter(Boolean);
+        const code     = codeArea.value.trim();
 
         if (!title || !content) {
           msg.textContent = "Add title & content.";
@@ -308,9 +349,10 @@
         }
 
         try {
-          await push(ref(db, "articles"), { title, content, author, tags, timestamp: Date.now() });
+          await push(ref(db, "articles"), { title, content, author, tags, code, timestamp: Date.now() });
           msg.textContent = "✅ Posted!";
           form.reset();
+          codePreview.style.display = "none";
         } catch (err) {
           console.error(err);
           msg.textContent = "❌ Failed (check console).";
@@ -410,11 +452,26 @@
                   <span><b>Author:</b> ${art.author ?? "—"}</span>
                   <span style="margin-left:1em;"><b>Tags:</b> ${(art.tags ?? []).join(", ")}</span>
                 </div>
+                ${art.code ? `<div class="code-preview">${art.code}</div>` : ""}
                 <time>${new Date(art.timestamp).toLocaleString()}</time>
               </div>
             `;
             listBox.appendChild(row);
           });
+      });
+
+      const codeArea = document.getElementById("codeArea");
+      const codePreview = document.getElementById("codePreview");
+
+      codeArea.addEventListener("input", () => {
+        const val = codeArea.value;
+        if (val.trim()) {
+          codePreview.style.display = "block";
+          codePreview.textContent = val;
+        } else {
+          codePreview.style.display = "none";
+          codePreview.textContent = "";
+        }
       });
     });
   </script>
@@ -458,6 +515,9 @@
         <input name="tags" maxlength="100" autocomplete="on" />
         <div id="tagsAutocomplete" class="autocomplete-list" style="display:none;"></div>
       </label>
+      <label class="code-area-label">Special Code Area (optional)</label>
+      <textarea id="codeArea" class="code-area" placeholder="Paste code here..."></textarea>
+      <div id="codePreview" class="code-preview" style="display:none;"></div>
       <button type="submit">Publish</button>
       <p id="status" class="status"></p>
     </form>

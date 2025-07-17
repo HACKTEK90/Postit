@@ -8,6 +8,9 @@
   <!-- Inter Tight font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&display=swap" rel="stylesheet">
 
+  <!-- Add Fira Mono font for code area -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
+
   <meta name="description" content="Article Hub delivers a real-time stream of concise, high-quality articles on technology, productivity, and creative ideas.">
   <meta name="keywords" content="articles, blog, tech news, productivity tips, firebase, realtime database">
   <meta name="robots" content="index, follow">
@@ -291,6 +294,46 @@
     transform: scale(1.15);
   }
 
+  /* Code area styles */
+  .code-area-label {
+    font-weight: 600;
+    color: var(--clr-primary);
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+  .code-area {
+    width: 100%;
+    min-height: 120px;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+    font-size: 1em;
+    background: #f8fafc;
+    color: #23234a;
+    border: 1px solid var(--clr-primary);
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1.2rem;
+    box-sizing: border-box;
+    resize: vertical;
+    transition: border-color .15s;
+  }
+  .code-area:focus {
+    border-color: #4f46e5;
+    outline: none;
+    background: #fff;
+  }
+  .code-preview {
+    background: #f8fafc;
+    color: #23234a;
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1.2rem;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+    font-size: 1em;
+    white-space: pre-wrap;
+    word-break: break-word;
+    border: 1px solid var(--clr-primary);
+  }
+
   /* Animations */
   @keyframes fadeInUp {
     from { opacity:0; transform:translateY(24px);}
@@ -323,6 +366,12 @@
       <div class="title-map-list"></div>
     </aside>
   </div>
+  <!-- Special code area for public articles -->
+  <section class="card" style="max-width: 800px; margin: 2rem auto;">
+    <label class="code-area-label">Special Code Area (shared by latest article)</label>
+    <textarea id="codeArea" class="code-area" placeholder="Paste code here..." readonly></textarea>
+    <div id="codePreview" class="code-preview" style="display:none;"></div>
+  </section>
 
   <!-- Footer -->
   <footer>&copy; 2025 Article Hub.</footer>
@@ -358,6 +407,7 @@
     document.head.appendChild(ld);
 
     let articleIds = [];
+    let latestCode = "";
 
     onValue(ref(db,"articles"), snap=>{
       list.innerHTML = "";
@@ -375,6 +425,12 @@
 
       articleIds = [];
 
+      // Find latest code (from most recent article)
+      latestCode = "";
+      if (articles.length > 0 && articles[0][1].code) {
+        latestCode = articles[0][1].code;
+      }
+
       articles.forEach(([key, art], i)=>{
         const id = `art-${key}`;
         articleIds.push(id);
@@ -386,6 +442,7 @@
         card.innerHTML = `
           <h2>${art.title}</h2>
           <p>${art.content}</p>
+          ${art.code ? `<div class="code-preview">${art.code}</div>` : ""}
           <time>${new Date(art.timestamp).toLocaleString()}</time>
         `;
         list.appendChild(card);
@@ -409,6 +466,19 @@
           "url":location.origin+"/#"+id
         });
       });
+
+      // Show latest code in the special code area
+      const codeArea = document.getElementById("codeArea");
+      const codePreview = document.getElementById("codePreview");
+      if (latestCode && codeArea && codePreview) {
+        codeArea.value = latestCode;
+        codePreview.style.display = "block";
+        codePreview.textContent = latestCode;
+      } else if (codeArea && codePreview) {
+        codeArea.value = "";
+        codePreview.style.display = "none";
+        codePreview.textContent = "";
+      }
 
       ld.textContent = JSON.stringify(itemList);
     });
