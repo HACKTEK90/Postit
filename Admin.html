@@ -246,25 +246,18 @@
     margin-bottom: 0.3rem;
     display: block;
   }
-  .code-area {
+  #monacoContainer {
     width: 100%;
-    min-height: 120px;
-    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
-    font-size: 1em;
-    background: #18181b;
-    color: #e0e7ff;
+    min-height: 180px;
+    height: 180px;
     border: 1px solid #6366f1;
     border-radius: 8px;
-    padding: 1em;
     margin-bottom: 1.2rem;
+    background: #f8fafc;
+    font-size: 1em;
     box-sizing: border-box;
-    resize: vertical;
-    transition: border-color .15s;
-  }
-  .code-area:focus {
-    border-color: #4f46e5;
-    outline: none;
-    background: #23234a;
+    /* Hide default textarea */
+    display: block;
   }
   .code-preview {
     background: #23234a;
@@ -278,11 +271,86 @@
     word-break: break-word;
     border: 1px solid #6366f1;
   }
+  .code-dialog-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(40,40,60,0.18);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .code-dialog {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(99,102,241,.18);
+    padding: 2rem 2rem 1.5rem 2rem;
+    min-width: 340px;
+    max-width: 600px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .code-dialog-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #e0e7ef;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 1.3rem;
+    color: #6366f1;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background .15s;
+    z-index: 1;
+  }
+  .code-dialog-close:hover {
+    background: #6366f1;
+    color: #fff;
+  }
+  .code-dialog-label {
+    font-weight: 600;
+    color: #23234a;
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+  #monacoDialogContainer {
+    width: 100%;
+    min-height: 180px;
+    height: 180px;
+    border: 1px solid #6366f1;
+    border-radius: 8px;
+    background: #f8fafc;
+    font-size: 1em;
+    box-sizing: border-box;
+    margin-bottom: 1.2rem;
+  }
+  .open-code-btn {
+    margin-bottom: 1rem;
+    background: #6366f1;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .open-code-btn:hover {
+    background: #4f46e5;
+  }
   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard — Publish & Manage Articles</title>
   <link rel="stylesheet" href="styles.css" />
 
+  <!-- Monaco Editor loader -->
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
   <script type="module">
     /* ───── Firebase SDKs ───── */
     import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -341,7 +409,7 @@
         const content = form.content.value.trim();
         const author  = form.author.value.trim();
         const tags    = form.tags.value.split(",").map(t=>t.trim()).filter(Boolean);
-        const code     = codeArea.value.trim();
+        const code = monacoDialogEditor ? monacoDialogEditor.getValue().trim() : "";
 
         if (!title || !content) {
           msg.textContent = "Add title & content.";
@@ -352,7 +420,9 @@
           await push(ref(db, "articles"), { title, content, author, tags, code, timestamp: Date.now() });
           msg.textContent = "✅ Posted!";
           form.reset();
-          codePreview.style.display = "none";
+          if (monacoDialogEditor) monacoDialogEditor.setValue("");
+          document.getElementById("codePreview").style.display = "none";
+          codeDialogOverlay.style.display = "none";
         } catch (err) {
           console.error(err);
           msg.textContent = "❌ Failed (check console).";
@@ -460,18 +530,48 @@
           });
       });
 
-      const codeArea = document.getElementById("codeArea");
-      const codePreview = document.getElementById("codePreview");
+      let monacoEditor;
+      let monacoDialogEditor;
+      let monacoValue = "";
 
-      codeArea.addEventListener("input", () => {
-        const val = codeArea.value;
-        if (val.trim()) {
-          codePreview.style.display = "block";
-          codePreview.textContent = val;
-        } else {
-          codePreview.style.display = "none";
-          codePreview.textContent = "";
-        }
+      // Monaco Editor loader for dialog
+      window.require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs' } });
+      window.require(['vs/editor/editor.main'], function() {
+        monacoDialogEditor = monaco.editor.create(document.getElementById('monacoDialogContainer'), {
+          value: "",
+          language: "javascript",
+          theme: "vs-light",
+          fontSize: 16,
+          fontFamily: "'Fira Mono', 'Consolas', 'Menlo', monospace",
+          automaticLayout: true,
+          minimap: { enabled: false }
+        });
+        monacoDialogEditor.onDidChangeModelContent(() => {
+          monacoValue = monacoDialogEditor.getValue();
+          const codePreview = document.getElementById("codePreview");
+          if (monacoValue.trim()) {
+            codePreview.style.display = "block";
+            codePreview.textContent = monacoValue;
+          } else {
+            codePreview.style.display = "none";
+            codePreview.textContent = "";
+          }
+        });
+      });
+
+      // Dialog open/close logic
+      const openBtn = document.getElementById("openCodeDialogBtn");
+      const closeBtn = document.getElementById("closeCodeDialogBtn");
+      const codeDialogOverlay = document.getElementById("codeDialogOverlay");
+
+      openBtn.addEventListener("click", () => {
+        codeDialogOverlay.style.display = "flex";
+        setTimeout(() => {
+          if (monacoDialogEditor) monacoDialogEditor.layout();
+        }, 200);
+      });
+      closeBtn.addEventListener("click", () => {
+        codeDialogOverlay.style.display = "none";
       });
     });
   </script>
@@ -515,9 +615,18 @@
         <input name="tags" maxlength="100" autocomplete="on" />
         <div id="tagsAutocomplete" class="autocomplete-list" style="display:none;"></div>
       </label>
-      <label class="code-area-label">Special Code Area (optional)</label>
-      <textarea id="codeArea" class="code-area" placeholder="Paste code here..."></textarea>
+      <button type="button" class="open-code-btn" id="openCodeDialogBtn">Open Code Editor</button>
+      <label class="code-area-label" style="display:none;">Special Code Area (optional)</label>
+      <div id="monacoContainer" style="display:none;"></div>
       <div id="codePreview" class="code-preview" style="display:none;"></div>
+      <!-- Code dialog -->
+      <div class="code-dialog-overlay" id="codeDialogOverlay">
+        <div class="code-dialog">
+          <button class="code-dialog-close" id="closeCodeDialogBtn" title="Close">&times;</button>
+          <label class="code-dialog-label">Special Code Area (optional)</label>
+          <div id="monacoDialogContainer"></div>
+        </div>
+      </div>
       <button type="submit">Publish</button>
       <p id="status" class="status"></p>
     </form>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Article Hub — Fresh Tech & Productivity Reads</title>
+  <title>Showpage — Fresh Tech & Productivity Reads</title>
 
   <!-- Inter Tight font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&display=swap" rel="stylesheet">
@@ -11,19 +11,11 @@
   <!-- Add Fira Mono font for code area -->
   <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-  <meta name="description" content="Article Hub delivers a real-time stream of concise, high-quality articles on technology, productivity, and creative ideas.">
-  <meta name="keywords" content="articles, blog, tech news, productivity tips, firebase, realtime database">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://www.example.com/">
-  <meta property="og:type"        content="website">
-  <meta property="og:url"         content="https://www.example.com/">
-  <meta property="og:title"       content="Article Hub">
+  <meta name="description" content="Showpage delivers a real-time stream of concise, high-quality articles on technology, productivity, and creative ideas.">
+  <meta property="og:title"       content="Showpage">
   <meta property="og:description" content="Read the latest articles on tech, productivity and more — updated in real‑time.">
-  <meta property="og:image"       content="https://www.example.com/og-cover.jpg">
-  <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="Article Hub">
+  <meta name="twitter:title"       content="Showpage">
   <meta name="twitter:description" content="Fresh tech & productivity reads, updated live.">
-  <meta name="twitter:image"       content="https://www.example.com/og-cover.jpg">
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -31,7 +23,7 @@
     "@context":"https://schema.org",
     "@type":"WebSite",
     "url":"https://www.example.com/",
-    "name":"Article Hub",
+    "name":"Showpage",
     "potentialAction":{
       "@type":"SearchAction",
       "target":"https://www.example.com/?q={search_term_string}",
@@ -352,7 +344,7 @@
 <body>
   <!-- Navbar -->
   <header class="navbar">
-    <h1>📰 Article Hub</h1>
+    <h1>📰 Showpage</h1>
     <nav>
       <a class="active" href="https://hacktek90.github.io/Postit/Admin.html">Publish Yours</a>
     </nav>
@@ -374,7 +366,7 @@
   </section>
 
   <!-- Footer -->
-  <footer>&copy; 2025 Article Hub.</footer>
+  <footer>&copy; 2025 Showpage.</footer>
 
   <!-- Back to top button -->
   <button id="goTopBtn" title="Go to top">↑ Top</button>
@@ -526,6 +518,14 @@
     // Go to Top button logic
     const goTopBtn = document.getElementById("goTopBtn");
     window.addEventListener("scroll", () => {
+      goTopBtn.classList.toggle("show", window.scrollY > 200);
+    });
+    goTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
       goTopBtn.classList.toggle("show", window.scrollY > 200);
     });
     goTopBtn.addEventListener("click", () => {
