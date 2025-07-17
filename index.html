@@ -39,112 +39,303 @@
 
   <!-- Style -->
   <style>
-  :root{
-    --clr-bg:        hsl(0 0% 98%);
-    --clr-surface:   hsl(0 0% 100%);
-    --clr-onSurf:    hsl(220 15% 15%);
-    --clr-muted:     hsl(220 10% 45%);
-    --clr-primary:   hsl(215 70% 55%);
-    --radius-nav:    20px;
-    --border-color:  #000;
+  :root {
+    --clr-bg:        linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%);
+    --clr-surface:   #fff;
+    --clr-onSurf:    #23234a;
+    --clr-muted:     #7c82a1;
+    --clr-primary:   #6366f1;
+    --radius-nav:    18px;
+    --border-color:  #e0e7ef;
+    --shadow-lg:     0 4px 24px 0 rgba(99,102,241,.08);
+    --shadow-sm:     0 1px 6px 0 rgba(99,102,241,.05);
   }
   @media(prefers-color-scheme:dark){
-    :root{
-      --clr-bg:      hsl(222 28% 12%);
-      --clr-surface: hsl(222 25% 18%);
-      --clr-onSurf:  hsl(0 0% 98%);
-      --clr-muted:   hsl(220 10% 70%);
-      --clr-primary: hsl(215 70% 65%);
-      --border-color:#fff;
+    :root {
+      --clr-bg:      linear-gradient(120deg, #18181b 0%, #312e81 100%);
+      --clr-surface: #23234a;
+      --clr-onSurf:  #f3f4f6;
+      --clr-muted:   #a5b4fc;
+      --clr-primary: #a5b4fc;
+      --border-color:#312e81;
+      --shadow-lg:   0 4px 24px 0 rgba(99,102,241,.18);
+      --shadow-sm:   0 1px 6px 0 rgba(99,102,241,.12);
     }
   }
 
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{
-    font:16px/1.6 "Inter Tight",system-ui,sans-serif;
-    background:var(--clr-bg);color:var(--clr-onSurf);
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font: 16px/1.7 "Inter Tight", system-ui, sans-serif;
+    background: var(--clr-bg);
+    color: var(--clr-onSurf);
+    min-height: 100vh;
+    transition: background .5s;
+    letter-spacing: 0.01em;
   }
 
-  /* Glassmorphic navbar */
-  .navbar{
-    position:sticky;top:1rem;z-index:100;margin:0 2rem;
-    padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;
-    background:rgba(255,255,255,.15);backdrop-filter:blur(14px) saturate(180%);
-    border:1px solid rgba(255,255,255,.3);border-radius:var(--radius-nav);
+  /* Navbar */
+  .navbar {
+    position: sticky;
+    top: 1rem;
+    z-index: 100;
+    margin: 0 2rem;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--clr-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-nav);
+    box-shadow: var(--shadow-lg);
   }
-  @media(prefers-color-scheme:dark){
-    .navbar{background:rgba(40,40,48,.25);border-color:rgba(255,255,255,.12)}
+  .navbar h1 {
+    font-size: 1.5rem;
+    color: var(--clr-primary);
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
-  .navbar h1,.card h2{font-weight:700;letter-spacing:-.01em}
-  .navbar h1{font-size:1.3rem}
-  .navbar a{
-    text-decoration:none;font-weight:600;padding:.4rem .9rem;border-radius:6px;
-    color:var(--clr-muted);
+  .navbar a {
+    text-decoration: none;
+    font-weight: 600;
+    padding: .4rem 1rem;
+    border-radius: 8px;
+    color: var(--clr-muted);
+    background: transparent;
+    transition: background .15s, color .15s;
   }
-  .navbar a.active{color:var(--clr-surface);background:var(--clr-primary)}
+  .navbar a.active,
+  .navbar a:hover {
+    color: #fff;
+    background: var(--clr-primary);
+  }
 
-  /* Layout: feed + sidebar */
-  .layout{
-    max-width:1200px;margin:2.5rem auto;padding:0 1rem;
-    display:grid;grid-template-columns:3fr 1fr;gap:2rem;
+  /* Layout */
+  .layout {
+    max-width: 1200px;
+    margin: 3rem auto 2rem;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+    gap: 2rem;
   }
   @media(max-width:900px){
-    .layout{grid-template-columns:1fr}
-    .title-map{display:none}
+    .layout { grid-template-columns: 1fr; }
+    .title-map { display: none; }
+  }
+
+  /* Title map sidebar */
+  .title-map {
+    position: sticky;
+    top: calc(var(--radius-nav) + 2rem);
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 1.2rem 1rem 1rem 1rem;
+    background: var(--clr-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    box-shadow: var(--shadow-sm);
+  }
+  .title-map h2 {
+    font-size: 1.08rem;
+    margin-bottom: .8rem;
+    color: var(--clr-primary);
+    font-weight: 700;
+    text-align: center;
+  }
+  .title-map a {
+    display: block;
+    margin-bottom: .5rem;
+    text-decoration: none;
+    color: var(--clr-muted);
+    font-size: 1rem;
+    padding: .3rem .6rem;
+    border-radius: 6px;
+    transition: background .12s, color .12s;
+    font-weight: 500;
+  }
+  .title-map a:hover {
+    color: var(--clr-primary);
+    background: rgba(99,102,241,.07);
+  }
+  .title-map-list {
+    position: relative;
+    margin-top: 1rem;
+    padding-left: 24px;
+  }
+  .title-map-dot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    cursor: pointer;
+    z-index: 1;
+  }
+  .title-map-dot .dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--clr-muted);
+    border: 2px solid var(--clr-surface);
+    box-shadow: 0 0 0 2px var(--clr-primary);
+    margin-right: 10px;
+    transition: background .2s, box-shadow .2s;
+    flex-shrink: 0;
+  }
+  .title-map-dot.active .dot {
+    background: var(--clr-primary);
+    box-shadow: 0 0 0 4px var(--clr-primary);
+  }
+  .title-map-dot .label {
+    color: var(--clr-muted);
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color .2s;
+  }
+  .title-map-dot.active .label {
+    color: var(--clr-primary);
+    font-weight: 700;
+  }
+  .title-map-dot .connector {
+    position: absolute;
+    left: 6px;
+    top: 14px;
+    width: 2px;
+    height: 24px;
+    background: var(--clr-primary);
+    opacity: 0.3;
+    z-index: 0;
+    transition: opacity .2s, height .3s;
+  }
+  .title-map-dot:last-child .connector {
+    display: none;
   }
 
   /* Cards */
-  .card{
-    background:var(--clr-surface);border:1px solid var(--border-color);
-    padding:1.5rem 1.75rem;border-radius:0;
-    position:sticky;top:calc(var(--radius-nav) + 4.5rem);
+  .card {
+    background: var(--clr-surface);
+    border: 1px solid var(--border-color);
+    padding: 1.7rem 2rem 1.2rem 2rem;
+    border-radius: 18px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 2rem;
+    position: relative;
+    transition: box-shadow .15s, transform .15s;
   }
-  .card h2{font-size:1.3rem;margin-bottom:.5rem}
-  .card p{color:var(--clr-muted);margin-bottom:.75rem}
-  .card time{font-size:.875rem;color:var(--clr-muted)}
+  .card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px) scale(1.01);
+  }
+  .card h2 {
+    font-size: 1.25rem;
+    margin-bottom: .6rem;
+    color: var(--clr-primary);
+    font-weight: 700;
+    letter-spacing: -.01em;
+  }
+  .card p {
+    color: var(--clr-onSurf);
+    margin-bottom: .8rem;
+    font-size: 1.07rem;
+    line-height: 1.7;
+  }
+  .card time {
+    font-size: .93rem;
+    color: var(--clr-muted);
+    letter-spacing: .01em;
+    font-style: italic;
+    display: block;
+    margin-top: .4rem;
+    text-align: right;
+  }
 
-  /* Title map sidebar */
-  .title-map{
-    position:sticky;top:calc(var(--radius-nav) + 2rem);
-    max-height:80vh;overflow-y:auto;padding-right:.5rem;
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem 2.5rem;
+    font-size: .93rem;
+    color: var(--clr-muted);
+    background: transparent;
+    letter-spacing: .01em;
+    border-top: 1px solid var(--border-color);
+    margin-top: 2rem;
+    opacity: .8;
   }
-  .title-map h2{font-size:1.1rem;margin-bottom:.75rem}
-  .title-map a{
-    display:block;margin-bottom:.5rem;text-decoration:none;
-    color:var(--clr-muted);font-size:.95rem;
-  }
-  .title-map a:hover{color:var(--clr-primary)}
 
-  footer{text-align:center;padding:2rem 1rem 3rem;font-size:.875rem;color:var(--clr-muted)}
+  /* Back to top button */
+  #goTopBtn {
+    position: fixed;
+    right: 2.2rem;
+    bottom: 2.2rem;
+    z-index: 200;
+    background: var(--clr-primary);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    box-shadow: 0 2px 12px 0 rgba(99,102,241,.15);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s, transform .2s;
+  }
+  #goTopBtn.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1.08);
+  }
+  #goTopBtn:hover {
+    background: #4f46e5;
+    transform: scale(1.15);
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity:0; transform:translateY(24px);}
+    to   { opacity:1; transform:none;}
+  }
+  @keyframes fadeInDown {
+    from { opacity:0; transform:translateY(-24px);}
+    to   { opacity:1; transform:none;}
+  }
+  @keyframes fadeInRight {
+    from { opacity:0; transform:translateX(32px);}
+    to   { opacity:1; transform:none;}
+  }
   </style>
 </head>
 <body>
-
   <!-- Navbar -->
   <header class="navbar">
     <h1>📰 Article Hub</h1>
-    <nav><a class="active" href="https://hacktek90.github.io/Postit/Admin.html">Publish Yours</a></nav>
+    <nav>
+      <a class="active" href="https://hacktek90.github.io/Postit/Admin.html">Publish Yours</a>
+    </nav>
   </header>
 
   <!-- Main layout -->
   <div class="layout">
     <main id="articleList"></main>
-
     <aside class="title-map" id="titleMap">
       <h2>Title Map</h2>
-      <!-- links injected by JS -->
+      <div class="title-map-list"></div>
     </aside>
   </div>
 
+  <!-- Footer -->
   <footer>&copy; 2025 Article Hub.</footer>
+
+  <!-- Back to top button -->
+  <button id="goTopBtn" title="Go to top">↑ Top</button>
 
   <!-- Firebase & dynamic feed -->
   <script type="module">
     import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getDatabase, ref, onValue }
-                               from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-    /* Firebase config */
     const firebaseConfig = {
       apiKey:            "AIzaSyAp9kCBsDLnQEmR7wWHXwt3FB2T1zDtiqU",
       authDomain:        "h-90-8a7c5.firebaseapp.com",
@@ -159,15 +350,18 @@
     const db   = getDatabase(app);
     const list = document.getElementById("articleList");
     const map  = document.getElementById("titleMap");
+    const mapList = map.querySelector('.title-map-list');
 
     /* JSON‑LD script element */
     const ld = document.createElement("script");
     ld.type = "application/ld+json";
     document.head.appendChild(ld);
 
+    let articleIds = [];
+
     onValue(ref(db,"articles"), snap=>{
       list.innerHTML = "";
-      map.innerHTML  = "<h2>Title Map</h2>";   // reset sidebar
+      mapList.innerHTML = "";   // reset sidebar
 
       const data = snap.val() ?? {};
       const articles = Object.entries(data)
@@ -179,12 +373,16 @@
         "itemListElement":[]
       };
 
+      articleIds = [];
+
       articles.forEach(([key, art], i)=>{
         const id = `art-${key}`;
+        articleIds.push(id);
 
         /* Card */
         const card = document.createElement("article");
-        card.className="card";card.id=id;
+        card.className="card";
+        card.id=id;
         card.innerHTML = `
           <h2>${art.title}</h2>
           <p>${art.content}</p>
@@ -192,11 +390,16 @@
         `;
         list.appendChild(card);
 
-        /* Sidebar link */
-        const link = document.createElement("a");
-        link.href  = "#"+id;
-        link.textContent = `${i+1}. ${art.title}`;
-        map.appendChild(link);
+        /* Sidebar dot/link */
+        const dotItem = document.createElement("div");
+        dotItem.className = "title-map-dot";
+        dotItem.dataset.target = id;
+        dotItem.innerHTML = `
+          <span class="dot"></span>
+          <a class="label" href="#${id}">${i+1}. ${art.title}</a>
+          <span class="connector"></span>
+        `;
+        mapList.appendChild(dotItem);
 
         /* LD ItemList */
         itemList.itemListElement.push({
@@ -209,6 +412,56 @@
 
       ld.textContent = JSON.stringify(itemList);
     });
+
+    // Scroll tracking for dot highlight/animation
+    function updateActiveDot() {
+      const articles = articleIds.map(id => document.getElementById(id));
+      const dots = Array.from(document.querySelectorAll('.title-map-dot'));
+      let activeIdx = 0;
+      const scrollY = window.scrollY;
+      const offset = 120; // adjust for navbar height
+
+      for (let i = 0; i < articles.length; i++) {
+        const rect = articles[i].getBoundingClientRect();
+        if (rect.top + window.scrollY - offset <= scrollY) {
+          activeIdx = i;
+        }
+      }
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === activeIdx);
+        // Animate connector height if desired (optional)
+        const connector = dot.querySelector('.connector');
+        if (connector) {
+          connector.style.height = (i < activeIdx ? '32px' : '24px');
+          connector.style.opacity = (i < activeIdx ? '0.7' : '0.3');
+        }
+      });
+    }
+
+    window.addEventListener("scroll", updateActiveDot);
+    window.addEventListener("resize", updateActiveDot);
+    document.addEventListener("DOMContentLoaded", updateActiveDot);
+
+    // Click dot scroll
+    mapList.addEventListener('click', e => {
+      const dot = e.target.closest('.title-map-dot');
+      if (dot && dot.dataset.target) {
+        const target = document.getElementById(dot.dataset.target);
+        if (target) {
+          window.scrollTo({ top: target.offsetTop - 80, behavior: "smooth" });
+        }
+      }
+    });
+
+    // Go to Top button logic
+    const goTopBtn = document.getElementById("goTopBtn");
+    window.addEventListener("scroll", () => {
+      goTopBtn.classList.toggle("show", window.scrollY > 200);
+    });
+    goTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   </script>
 </body>
 </html>
+

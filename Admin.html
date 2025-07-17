@@ -1,116 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><style>body {
-  font-family: system-ui, sans-serif;
-  background: #f5f5f5;
-  margin: 0;
-  padding: 2rem;
-  color: #222;
-}
-
-h1, h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.container {
-  max-width: 800px;
-  margin: auto;
-}
-
-form {
-  background: #fff;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  margin-bottom: 2rem;
-}
-
-label {
-  display: block;
-  margin-bottom: 1rem;
-}
-
-label span {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 0.3rem;
-}
-
-input[type="text"],
-textarea {
-  width: 100%;
-  padding: 0.5rem;
-  font: inherit;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  font: inherit;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #0056b3;
-}
-
-.status {
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
-  color: green;
-}
-
-.admin-list article {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.admin-info h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.1rem;
-}
-
-.admin-info p {
-  margin: 0 0 0.5rem 0;
-  font-size: 0.95rem;
-  color: #444;
-}
-
-.admin-info time {
-  font-size: 0.8rem;
-  color: #888;
-}
-
-button.danger {
-  background: #d00;
-  color: white;
-  padding: 0.3rem 0.7rem;
-  border: none;
-  border-radius: 4px;
-  margin-top: 0.5rem;
-  cursor: pointer;
-}
-
-button.danger:hover {
-  background: #a00;
-}
-
-.note {
-  font-size: 0.9rem;
-  color: #555;
-  margin-top: 2rem;
-}
-</style>
+  <meta charset="UTF-8" />
+  <!-- Add Poppins font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+  body {
+    font-family: 'Poppins', system-ui, sans-serif;
+    background: #f4f6fa;
+    margin: 0;
+    padding: 0;
+    color: #222;
+  }
+  .admin-navbar {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(99,102,241,.07);
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e0e7ef;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .admin-navbar h1 {
+    font-size: 1.6rem;
+    color: #6366f1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .admin-navbar .admin-actions {
+    display: flex;
+    gap: 1rem;
+  }
+  .admin-navbar .admin-actions a {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 600;
+    padding: .4rem 1rem;
+    border-radius: 8px;
+    background: rgba(99,102,241,.07);
+    transition: background .15s, color .15s;
+  }
+  .admin-navbar .admin-actions a:hover {
+    background: #6366f1;
+    color: #fff;
+  }
+  .container {
+    max-width: 900px;
+    margin: 2.5rem auto 2rem;
+    padding: 0 2rem;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #e0e7ef;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px 0 rgba(99,102,241,.05);
+    padding: 2rem 2rem 1.5rem 2rem;
+    margin-bottom: 2rem;
+    transition: box-shadow .15s, transform .15s;
+  }
+  .card:hover {
+    box-shadow: 0 4px 24px 0 rgba(99,102,241,.10);
+    transform: translateY(-2px) scale(1.01);
+  }
+  form.card {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1.2rem;
+    color: #6366f1;
+    font-weight: 700;
+    letter-spacing: -.01em;
+  }
+  label {
+    display: block;
+    margin-bottom: 1.2rem;
+  }
+  label span {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: #23234a;
+  }
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 0.6rem 0.7rem;
+    font: inherit;
+    border: 1px solid #e0e7ef;
+    border-radius: 6px;
+    background: #f8fafc;
+    margin-top: 0.1rem;
+    font-size: 1rem;
+    transition: border-color .15s;
+  }
+  input[type="text"]:focus,
+  textarea:focus {
+    border-color: #6366f1;
+    outline: none;
+    background: #fff;
+  }
+  button {
+    padding: 0.6rem 1.3rem;
+    font: inherit;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background .15s, transform .15s;
+    margin-top: 0.5rem;
+  }
+  button:hover {
+    background: #4f46e5;
+    transform: scale(1.04);
+  }
+  .status {
+    margin-top: 0.5rem;
+    font-size: 0.98rem;
+    color: #22c55e;
+    font-weight: 500;
+  }
+  .admin-list {
+    margin-top: 1.5rem;
+  }
+  .admin-list article {
+    background: #fff;
+    border: 1px solid #e0e7ef;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px 0 rgba(99,102,241,.04);
+    padding: 1.2rem 1.5rem 1rem 1.5rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+    transition: box-shadow .12s, transform .12s;
+  }
+  .admin-list article:hover {
+    box-shadow: 0 2px 12px 0 rgba(99,102,241,.09);
+    transform: scale(1.01);
+  }
+  .admin-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.12rem;
+    color: #6366f1;
+    font-weight: 600;
+  }
+  .admin-info p {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.7;
+  }
+  .admin-info time {
+    font-size: 0.9rem;
+    color: #888;
+    font-style: italic;
+    margin-top: 0.5rem;
+    display: block;
+    text-align: right;
+  }
+  .admin-info .meta {
+    margin-bottom: 0.5rem;
+    font-size: 0.97rem;
+    color: #555;
+    display: flex;
+    gap: 2em;
+    flex-wrap: wrap;
+  }
+  .admin-info .meta span {
+    font-weight: 500;
+    color: #6366f1;
+  }
+  .note {
+    font-size: 0.98rem;
+    color: #555;
+    margin-top: 2.5rem;
+    text-align: center;
+    opacity: .85;
+  }
+  .font-tools {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 1em;
+  }
+  .font-tools label {
+    font-size: 1em;
+    font-weight: 500;
+    color: #23234a;
+  }
+  .counter {
+    font-size: 1em;
+    color: #555;
+    margin-left: auto;
+    font-weight: 500;
+  }
+  .preview-box {
+    background: #f8fafc;
+    border: 1px solid #e0e7ef;
+    padding: 0.9em;
+    margin-top: 1em;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #222;
+    min-height: 2em;
+    box-shadow: 0 1px 4px 0 rgba(99,102,241,.03);
+  }
+  .preview-title {
+    font-weight: bold;
+    margin-bottom: 0.3em;
+    font-size: 1em;
+    color: #6366f1;
+  }
+  .autocomplete-list {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #e0e7ef;
+    z-index: 10;
+    max-height: 160px;
+    overflow-y: auto;
+    width: 100%;
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 1em;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(99,102,241,.07);
+  }
+  .autocomplete-item {
+    padding: 0.5em 1em;
+    cursor: pointer;
+    transition: background .12s;
+  }
+  .autocomplete-item:hover {
+    background: #e0e7ff;
+  }
+  </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Local Admin — Publish & Manage Articles</title>
+  <title>Admin Dashboard — Publish & Manage Articles</title>
   <link rel="stylesheet" href="styles.css" />
 
   <script type="module">
@@ -133,13 +264,12 @@ button.danger:hover {
     const app = initializeApp(firebaseConfig);
     const db  = getDatabase(app);
 
-    /* ───── Handle new article submission ───── */
     window.addEventListener("DOMContentLoaded", () => {
       const form    = document.getElementById("articleForm");
       const msg     = document.getElementById("status");
       const listBox = document.getElementById("adminList");
 
-      /* live feed for admin table */
+      // Live feed for admin table
       onValue(ref(db, "articles"), snap => {
         listBox.innerHTML = "";
         const data = snap.val() ?? {};
@@ -153,19 +283,24 @@ button.danger:hover {
               <div class="admin-info">
                 <h3>${art.title}</h3>
                 <p>${art.content}</p>
+                <div>
+                  <span><b>Author:</b> ${art.author ?? "—"}</span>
+                  <span style="margin-left:1em;"><b>Tags:</b> ${(art.tags ?? []).join(", ")}</span>
+                </div>
                 <time>${new Date(art.timestamp).toLocaleString()}</time>
               </div>
-               <button class="danger" data-id="${key}" hidden>NO PRESS</button>  
             `;
             listBox.appendChild(row);
           });
       });
 
-      /* publish new article */
+      // Publish new article only (no edit)
       form.addEventListener("submit", async e => {
         e.preventDefault();
         const title   = form.title.value.trim();
         const content = form.content.value.trim();
+        const author  = form.author.value.trim();
+        const tags    = form.tags.value.split(",").map(t=>t.trim()).filter(Boolean);
 
         if (!title || !content) {
           msg.textContent = "Add title & content.";
@@ -173,7 +308,7 @@ button.danger:hover {
         }
 
         try {
-          await push(ref(db, "articles"), { title, content, timestamp: Date.now() });
+          await push(ref(db, "articles"), { title, content, author, tags, timestamp: Date.now() });
           msg.textContent = "✅ Posted!";
           form.reset();
         } catch (err) {
@@ -182,44 +317,158 @@ button.danger:hover {
         }
       });
 
-      /* delegate deletes */
-      listBox.addEventListener("click", async e => {
-        const btn = e.target.closest("button[data-id]");
-        if (!btn) return;
-        const id = btn.dataset.id;
-        if (!confirm("Delete this article permanently?")) return;
+      // Tag autocomplete (public article oriented)
+      const fontStyle = document.getElementById("fontStyle");
+      const contentInput = form.content;
+      const counter = document.getElementById("contentCounter");
+      const preview = document.getElementById("previewContent");
+      const tagsInput = form.tags;
+      const tagsAutocomplete = document.getElementById("tagsAutocomplete");
 
-        try {
-          await remove(ref(db, `articles/${id}`));
-        } catch (err) {
-          console.error(err);
-          alert("Deletion failed — see console.");
+      // Font style tool
+      fontStyle.addEventListener("change", () => {
+        contentInput.style.fontFamily = fontStyle.value;
+        preview.style.fontFamily = fontStyle.value;
+      });
+
+      // Word/char counter and markdown preview
+      function updateWritingTools() {
+        const text = contentInput.value;
+        const words = text.trim().split(/\s+/).filter(Boolean).length;
+        const chars = text.length;
+        counter.textContent = `${words} words, ${chars} chars`;
+
+        // Simple markdown preview (bold, italic, links, line breaks)
+        let html = text
+          .replace(/(?:__|\*\*)(.*?)\1/g, '<b>$1</b>')
+          .replace(/(?:_|\*)(.*?)\1/g, '<i>$1</i>')
+          .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>')
+          .replace(/\n/g, '<br>');
+        preview.innerHTML = html;
+      }
+      contentInput.addEventListener("input", updateWritingTools);
+      form.title.addEventListener("input", updateWritingTools);
+      updateWritingTools();
+
+      // Collect tags from all articles for suggestions
+      let allTags = [];
+      function updateTagsList(data) {
+        const tagsSet = new Set();
+        Object.values(data).forEach(art => {
+          (art.tags ?? []).forEach(tag => tagsSet.add(tag));
+        });
+        allTags = Array.from(tagsSet).sort();
+      }
+
+      // Update autocomplete list for tags
+      tagsInput.addEventListener("input", () => {
+        const val = tagsInput.value.split(",").pop().trim().toLowerCase();
+        if (!val) {
+          tagsAutocomplete.style.display = "none";
+          return;
         }
+        const matches = allTags.filter(tag => tag.toLowerCase().startsWith(val) && tag.length > 0);
+        if (matches.length === 0) {
+          tagsAutocomplete.style.display = "none";
+          return;
+        }
+        tagsAutocomplete.innerHTML = matches.map(tag => `<div class="autocomplete-item">${tag}</div>`).join("");
+        tagsAutocomplete.style.display = "block";
+      });
+
+      tagsAutocomplete.addEventListener("mousedown", e => {
+        if (e.target.classList.contains("autocomplete-item")) {
+          let tagsArr = tagsInput.value.split(",");
+          tagsArr[tagsArr.length - 1] = e.target.textContent;
+          tagsInput.value = tagsArr.join(", ").replace(/,\s*$/, "");
+          tagsAutocomplete.style.display = "none";
+          tagsInput.dispatchEvent(new Event("input"));
+        }
+      });
+
+      document.addEventListener("click", e => {
+        if (!tagsAutocomplete.contains(e.target) && e.target !== tagsInput) {
+          tagsAutocomplete.style.display = "none";
+        }
+      });
+
+      // Update tags list on articles change
+      onValue(ref(db, "articles"), snap => {
+        const data = snap.val() ?? {};
+        updateTagsList(data);
+        listBox.innerHTML = "";
+        Object.entries(data)
+          .sort((a, b) => (b[1].timestamp ?? 0) - (a[1].timestamp ?? 0))
+          .forEach(([key, art]) => {
+            const row = document.createElement("article");
+            row.className = "card admin-row";
+            row.innerHTML = `
+              <div class="admin-info">
+                <h3>${art.title}</h3>
+                <p>${art.content}</p>
+                <div>
+                  <span><b>Author:</b> ${art.author ?? "—"}</span>
+                  <span style="margin-left:1em;"><b>Tags:</b> ${(art.tags ?? []).join(", ")}</span>
+                </div>
+                <time>${new Date(art.timestamp).toLocaleString()}</time>
+              </div>
+            `;
+            listBox.appendChild(row);
+          });
       });
     });
   </script>
 </head>
 <body>
-  <header class="navbar"><h1>✍️ Local Admin Dashboard</h1></header>
+  <header class="admin-navbar">
+    <h1>✍️ Admin Dashboard</h1>
+    <nav class="admin-actions">
+      <a href="/">View Public Feed</a>
+      <a href="https://github.com/hacktek90/Postit" target="_blank">GitHub</a>
+    </nav>
+  </header>
 
   <main class="container">
-    <!--‑‑‑ Publish form ‑‑‑-->
-    <form id="articleForm" class="card form">
+    <form id="articleForm" class="card form" autocomplete="on">
       <h2>Publish Article</h2>
+      <div class="font-tools">
+        <label>
+          Font style:
+          <select id="fontStyle">
+            <option value="system-ui,sans-serif">Default</option>
+            <option value="serif">Serif</option>
+            <option value="monospace">Monospace</option>
+            <option value="'Inter Tight',sans-serif">Inter Tight</option>
+            <option value="'Poppins',sans-serif">Poppins</option>
+          </select>
+        </label>
+        <span class="counter" id="contentCounter">0 words, 0 chars</span>
+      </div>
       <label><span>Title</span><input name="title" required maxlength="100" /></label>
-      <label><span>Content</span><textarea name="content" rows="6" required></textarea></label>
+      <label><span>Content</span>
+        <textarea name="content" rows="6" required></textarea>
+      </label>
+      <div class="preview-box" id="markdownPreview">
+        <div class="preview-title">Preview:</div>
+        <div id="previewContent"></div>
+      </div>
+      <label><span>Author</span><input name="author" maxlength="50" /></label>
+      <label style="position:relative;">
+        <span>Tags (comma separated)</span>
+        <input name="tags" maxlength="100" autocomplete="on" />
+        <div id="tagsAutocomplete" class="autocomplete-list" style="display:none;"></div>
+      </label>
       <button type="submit">Publish</button>
       <p id="status" class="status"></p>
     </form>
 
-    <!--‑‑‑ Admin list ‑‑‑-->
     <section>
       <h2>Existing Articles</h2>
       <div id="adminList" class="admin-list"></div>
     </section>
 
-    <p class="note">This page is for public use only — No need to copy 
-(free use intended).</p>
+    <p class="note">This dashboard is for public article publishing only.<br>
+    All posts are visible to everyone. No edit or delete for public users.</p>
   </main>
 </body>
 </html>
